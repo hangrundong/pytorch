@@ -30,12 +30,5 @@ RUN /opt/conda/bin/conda install --name pytorch-py$PYTHON_VERSION -c soumith mag
 WORKDIR /opt/pytorch
 COPY . .
 
-RUN git submodule update --init
-RUN TORCH_CUDA_ARCH_LIST="3.5 5.2 6.0 6.1+PTX" TORCH_NVCC_FLAGS="-Xfatbin -compress-all" \
-    CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" \
-    pip install -v .
-
-RUN git clone https://github.com/pytorch/vision.git && cd vision && pip install -v .
-
 WORKDIR /workspace
 RUN chmod -R a+w /workspace
