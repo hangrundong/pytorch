@@ -30,5 +30,7 @@ RUN /opt/conda/bin/conda install --name pytorch-py$PYTHON_VERSION -c soumith mag
 WORKDIR /opt/pytorch
 COPY . .
 
+RUN /opt/conda/bin/conda install --name pytorch-py$PYTHON_VERSION -c soumith pytorch=0.3.0
+
 WORKDIR /workspace
 RUN chmod -R a+w /workspace
