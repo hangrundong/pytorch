@@ -1,0 +1,43 @@
+FROM ubuntu:16.04
+
+#install jdk
+RUN mkdir /usr/local/java
+ADD jdk-8u191-linux-x64.tar.gz /usr/local/java/
+RUN ln -s /usr/local/java/jdk1.8.0_191 /usr/local/java/jdk
+#set JAVA  environment variables
+ENV JAVA_HOME /usr/local/java/jdk
+ENV JRE_HOME ${JAVA_HOME}/jre
+ENV CLASSPATH .:${JAVA_HOME}/lib:${JRE_HOME}/lib
+ENV PATH ${JAVA_HOME}/bin:$PATH
+RUN java -version
+
+#install node.js
+ADD node-v10.16.0-linux-x64.tar.xz /usr/local/nodejs
+RUN ln -s /usr/local/nodejs/node-v10.16.0-linux-x64/bin/npm /usr/local/bin/npm
+RUN ln -s /usr/local/nodejs/node-v10.16.0-linux-x64/bin/node /usr/local/bin/node
+RUN node -v
+RUN npm -v
+
+#install  android sdk
+#ADD Android.tar.gz /usr/local/android/
+#ENV ANDROID_HOME=/usr/local/android/Android/Sdk
+#ENV PATH=$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$ANDROID_HOME/build-tools/23.0.1/:$PATH 
+#RUN adb devices
+
+
+#install gradle
+ADD gradle-2.6.tar.xz /usr/local/gradle/
+ENV GRADLE_HOME=/usr/local/gradle/gradle-2.6
+ENV PATH=$GRADLE_HOME/bin:$PATH
+RUN gradle -version
+
+
+#install macaca-cli
+RUN npm install -g cnpm -registry=https://registry.npm.taobao.org
+RUN ln -s /usr/local/nodejs/node-v10.16.0-linux-x64/bin/cnpm /usr/local/bin/cnpm
+RUN cnpm i -g macaca-cli
+RUN ln -s /usr/local/nodejs/node-v10.16.0-linux-x64/bin/macaca /usr/local/bin/macaca
+
+#install macaca-android
+RUN cnpm i macaca-android -g
+
